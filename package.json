@@ -92,6 +92,7 @@
     "format:check": "oxfmt --check .",
     "test": "bun test test/core-email.spec.ts test/agentmail-sdk-compat.spec.ts",
     "test:integration": "node --import tsx/esm --test test/integration/sdk-matrix.test.mts",
+    "test:aws": "node --import tsx/esm --test test/integration/aws-live.test.mts",
     "start": "node dist/bin/serve.js",
     "version:bump": "bash scripts/version.sh",
     "publish:dry": "DRY_RUN=true bash scripts/publish.sh",
