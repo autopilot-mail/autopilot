@@ -306,7 +306,7 @@ describe('AgentMail SDK Compatibility', () => {
       const inbox = await client.inboxes.create({ username: 'sdk-draft' });
 
       const draft = await client.inboxes.drafts.create(inbox.inboxId, {
-        to: 'recipient@example.com',
+        to: ['recipient@example.com'],
         subject: 'Draft Subject',
         text: 'Draft body',
       });
@@ -321,7 +321,7 @@ describe('AgentMail SDK Compatibility', () => {
       expect(updated.text).toBe('Updated draft body');
 
       // Send
-      const sendResult = await client.inboxes.drafts.send(inbox.inboxId, draft.draftId);
+      const sendResult = await client.inboxes.drafts.send(inbox.inboxId, draft.draftId, {});
       expect(sendResult.messageId).toBeTruthy();
 
       // Draft should be gone
@@ -393,6 +393,7 @@ describe('AgentMail SDK Compatibility', () => {
     it('should add and list domains', async () => {
       const domain = await client.domains.create({
         domain: 'sdk-test.example.com',
+        feedbackEnabled: false,
       });
 
       expect(domain.domainId).toBeTruthy();
@@ -406,6 +407,7 @@ describe('AgentMail SDK Compatibility', () => {
     it('should delete a domain', async () => {
       const domain = await client.domains.create({
         domain: 'delete-sdk.example.com',
+        feedbackEnabled: false,
       });
 
       await client.domains.delete(domain.domainId);

@@ -232,6 +232,7 @@ export function createRouter(server: AutopilotServer, apiKeys?: string[]): Hono 
   });
 
   app.post('/v0/inboxes/:inbox_id/drafts/:draft_id/send', async (c) => {
+    await safeJson(c); // consume request body (SDK sends UpdateMessageRequest)
     const result = await server.inboxes.drafts.send(c.req.param('inbox_id'), c.req.param('draft_id'));
     return c.json(serializeSendResponse(result), 201);
   });
