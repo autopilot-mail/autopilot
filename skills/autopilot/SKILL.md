@@ -3,7 +3,7 @@ name: autopilot
 description: Self-host agentmail with pluggable storage and transports. Use when building a self-hosted email backend for AI agents, integrating SES/SMTP email into existing apps, or needing full control over email data storage. Provides the same SDK surface as hosted agentmail but runs in your infrastructure with your choice of PostgreSQL, MongoDB, SQLite, or custom storage.
 license: MIT
 metadata:
-  author: breezy
+  author: autopilot-mail
   version: '1.0'
 ---
 
