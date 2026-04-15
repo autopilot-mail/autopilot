@@ -90,7 +90,8 @@
     "lint:fix": "oxlint --fix .",
     "format": "oxfmt --write .",
     "format:check": "oxfmt --check .",
-    "test": "bun test test/",
+    "test": "bun test test/core-email.spec.ts test/agentmail-sdk-compat.spec.ts",
+    "test:integration": "node --import tsx/esm --test test/integration/sdk-matrix.test.mts",
     "start": "node dist/bin/serve.js",
     "version:bump": "bash scripts/version.sh",
     "publish:dry": "DRY_RUN=true bash scripts/publish.sh",
@@ -98,8 +99,8 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.19.14",
-    "hono": "^4.7.10",
-    "mailparser": "^3.7.2",
+    "hono": "^4.12.14",
+    "mailparser": "^3.9.8",
     "smol-toml": "^1.6.1"
   },
   "peerDependencies": {
@@ -112,7 +113,7 @@
     "drizzle-orm": "^0.44.0",
     "express": "^4.0.0 || ^5.0.0",
     "mongodb": "^6.0.0",
-    "nodemailer": "^6.0.0",
+    "nodemailer": "^8.0.5",
     "pg": "^8.0.0"
   },
   "peerDependenciesMeta": {
@@ -154,16 +155,23 @@
     "@aws-sdk/client-s3": "^3.1030.0",
     "@aws-sdk/client-sesv2": "^3.1030.0",
     "@aws-sdk/s3-request-presigner": "^3.1030.0",
-    "@types/better-sqlite3": "^7.6.12",
-    "@types/express": "^5.0.0",
-    "@types/mailparser": "^3.4.5",
-    "@types/nodemailer": "^6.4.17",
-    "@types/pg": "^8.11.11",
+    "@testcontainers/minio": "^11.14.0",
+    "@testcontainers/mongodb": "^11.14.0",
+    "@testcontainers/postgresql": "^11.14.0",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/express": "^5.0.6",
+    "@types/mailparser": "^3.4.6",
+    "@types/nodemailer": "^6.4.23",
+    "@types/pg": "^8.20.0",
     "agentmail": "^0.4.18",
+    "minio": "^8.0.7",
     "mongodb": "^7.1.1",
     "oxfmt": "^0.45.0",
     "oxlint": "^1.60.0",
-    "typescript": "^5.7.0"
+    "pg": "^8.20.0",
+    "testcontainers": "^11.14.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   },
   "engines": {
     "node": ">=18.0.0"

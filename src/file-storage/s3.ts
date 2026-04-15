@@ -8,6 +8,8 @@ export interface S3FileStorageConfig {
     accessKeyId: string;
     secretAccessKey: string;
   };
+  endpoint?: string;
+  forcePathStyle?: boolean;
 }
 
 /**
@@ -32,6 +34,8 @@ export class S3FileStorage implements FileStorageProvider {
     this.client = new S3Client({
       region: this.config.region,
       ...(this.config.credentials ? { credentials: this.config.credentials } : {}),
+      ...(this.config.endpoint ? { endpoint: this.config.endpoint } : {}),
+      ...(this.config.forcePathStyle ? { forcePathStyle: true } : {}),
     });
   }
 
