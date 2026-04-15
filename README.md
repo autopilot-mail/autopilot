@@ -108,6 +108,8 @@ The REST API is compatible with the official [AgentMail SDK](https://www.npmjs.c
 
 ## Documentation
 
+- **[Philosophy](docs/philosophy.md)** — why self-host, the cost math, own your data
+
 **Getting started**
 
 - [Getting Started](docs/getting-started.md) — first install to first email
