@@ -48,8 +48,6 @@ SES costs $0.10 per 1,000 emails regardless of whether you send them through Age
 Hosted AgentMail is the right choice when:
 
 - You want zero infrastructure to manage
-- You need WebSocket real-time events (Autopilot doesn't support this yet)
-- You need `extracted_text` reply stripping (Talon-powered, not in Autopilot yet)
 - You want a dashboard UI
 - Your volume is small enough that $20/month is noise
 

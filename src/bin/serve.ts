@@ -216,14 +216,22 @@ Environment variables (used when no config file is found):
   const port = config.server.port;
   const host = config.server.host;
 
-  serve({ fetch: app.fetch, port, hostname: host }, () => {
+  const httpServer = serve({ fetch: app.fetch, port, hostname: host }, () => {
     logger.info(`Autopilot server listening on http://${host}:${port}`);
     logger.info(`API base: http://${host}:${port}/v0`);
+    logger.info(`WebSocket: ws://${host}:${port}/v0/ws`);
     if (config.server.api_keys?.length) {
       logger.info(`Auth enabled (${config.server.api_keys.length} API key(s))`);
     } else {
       logger.warn('No API keys configured — server is unauthenticated');
     }
+  });
+
+  // WebSocket upgrade handler
+  const { createWebSocketHandler } = await import('../events/websocket.js');
+  const wsHandler = createWebSocketHandler(autopilot, { apiKeys: config.server.api_keys });
+  httpServer.on('upgrade', (req: any, socket: any, head: any) => {
+    wsHandler.handleUpgrade(req, socket, head);
   });
 
   // Graceful shutdown

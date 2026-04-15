@@ -11,7 +11,9 @@ import { DraftsResource } from './resources/drafts.js';
 import { WebhooksResource } from './resources/webhooks.js';
 import { DomainsResource } from './resources/domains.js';
 import { parseRawEmail, createPreview } from './email/parser.js';
+import { extractReplyText, extractReplyHtml } from './email/reply-parser.js';
 import { resolveOrCreateThread } from './email/threading.js';
+import { EventBus } from './events/bus.js';
 import { generateId } from './util/id.js';
 
 export class AutopilotServer {
@@ -20,6 +22,7 @@ export class AutopilotServer {
   readonly drafts: DraftsResource;
   readonly webhooks: WebhooksResource;
   readonly domains: DomainsResource;
+  readonly events: EventBus;
 
   private readonly storage: StorageAdapter;
   private readonly transport: EmailTransport | null;
@@ -33,8 +36,10 @@ export class AutopilotServer {
     this.fileStorage = config.fileStorage ?? null;
     this.logger = config.logger ?? defaultLogger;
     this.podId = config.podId ?? 'default';
+    this.events = new EventBus();
 
-    const dispatchEvent = config.webhookDispatch ? this.dispatchEvent.bind(this) : undefined;
+    // Always bind dispatchEvent — it handles both webhooks and the event bus
+    const dispatchEvent = this.dispatchEvent.bind(this);
 
     this.inboxes = new InboxesResource(this.storage, this.transport, config, this.logger, dispatchEvent);
     this.threads = new ThreadsResource(this.storage);
@@ -125,6 +130,8 @@ export class AutopilotServer {
       preview,
       text: parsed.text,
       html: parsed.html,
+      extractedText: parsed.text ? extractReplyText(parsed.text) : undefined,
+      extractedHtml: parsed.html ? extractReplyHtml(parsed.html) : undefined,
       attachments: parsed.attachments.map((att) => ({
         attachmentId: att.attachmentId,
         filename: att.filename,
@@ -184,21 +191,31 @@ export class AutopilotServer {
   }
 
   /**
-   * Dispatch an event to all matching registered webhooks.
+   * Dispatch an event to the event bus (WebSocket subscribers) and registered webhooks.
    */
   private async dispatchEvent(eventType: string, inboxId: string, podId: string, payload: Record<string, unknown>): Promise<void> {
+    const eventId = generateId('event');
+    const timestamp = new Date().toISOString();
+
+    // Always publish to the in-process event bus (WebSocket subscribers)
+    this.events.publish({
+      eventId,
+      eventType: eventType as EventTypeValue,
+      timestamp,
+      data: payload,
+      inboxId,
+      podId,
+    });
+
+    // Only dispatch to outbound webhooks if enabled
+    if (!this.config.webhookDispatch) return;
+
     try {
       const webhooks = await this.storage.getWebhooksForEvent(eventType as EventTypeValue, inboxId, podId);
 
       if (webhooks.length === 0) return;
 
-      const eventId = generateId('event');
-      const body = JSON.stringify({
-        eventId,
-        eventType,
-        timestamp: new Date().toISOString(),
-        data: payload,
-      });
+      const body = JSON.stringify({ eventId, eventType, timestamp, data: payload });
 
       for (const wh of webhooks) {
         try {

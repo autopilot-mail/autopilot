@@ -12,6 +12,12 @@
 npm install @autopilot-mail/core                # core SDK (required)
 ```
 
+**Skills**
+
+```bash
+npx skills add autopilot-mail/autopilot
+```
+
 Pick your stack:
 
 ```bash
@@ -78,7 +84,24 @@ curl -X POST http://localhost:3100/v0/inboxes \
   -d '{"username": "agent", "display_name": "My Agent"}'
 ```
 
-The REST API is compatible with the official [AgentMail SDK](https://www.npmjs.com/package/agentmail) — just change the `baseUrl`.
+## Already using AgentMail? One line change.
+
+The REST API is wire-compatible with the official [AgentMail SDK](https://www.npmjs.com/package/agentmail). Switch by changing the `baseUrl`:
+
+```diff
+ import { AgentMailClient } from "agentmail";
+
+ const client = new AgentMailClient({
+-  apiKey: "am_xxx",
++  baseUrl: "https://your-autopilot-server.com",
++  apiKey: "your-autopilot-key",
+ });
+
+ // Everything else stays exactly the same
+ const inbox = await client.inboxes.create({ username: "support" });
+ await client.inboxes.messages.send(inbox.inboxId, { to: "user@example.com", subject: "Hello", text: "Hi!" });
+ const { threads } = await client.threads.list();
+```
 
 ## Why not hosted AgentMail?
 
@@ -133,16 +156,6 @@ The REST API is compatible with the official [AgentMail SDK](https://www.npmjs.c
 - [Webhooks](docs/guides/webhooks.md) — inbound SES + outbound event dispatch
 - [Testing](docs/guides/testing.md) — in-memory adapters, NoopTransport, assertions
 - [Examples](examples/) — runnable code samples
-
-**Skills** (step-by-step setup guides for AI coding assistants)
-
-```bash
-npx skills add autopilot-mail/autopilot          # core SDK skill
-npx skills add autopilot-mail/autopilot-setup     # AWS SES, S3, DNS, Postgres
-npx skills add autopilot-mail/autopilot-cloudflare # D1, R2, Workers
-npx skills add autopilot-mail/autopilot-migrate   # migrate from AgentMail
-```
-
 - [AWS Setup](skills/autopilot-setup/SKILL.md) — SES, S3, SNS, DNS, Postgres
 - [Cloudflare Setup](skills/autopilot-cloudflare/SKILL.md) — D1, R2, Workers, Email Routing
 - [Migrate from AgentMail](skills/autopilot-migrate/SKILL.md) — data export, DNS cutover, SDK swap

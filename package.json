@@ -102,7 +102,8 @@
     "@hono/node-server": "^1.19.14",
     "hono": "^4.12.14",
     "mailparser": "^3.9.8",
-    "smol-toml": "^1.6.1"
+    "smol-toml": "^1.6.1",
+    "ws": "^8.20.0"
   },
   "peerDependencies": {
     "@archildata/client": "^0.1.0",
@@ -164,6 +165,7 @@
     "@types/mailparser": "^3.4.6",
     "@types/nodemailer": "^6.4.23",
     "@types/pg": "^8.20.0",
+    "@types/ws": "^8.18.1",
     "agentmail": "^0.4.18",
     "minio": "^8.0.7",
     "mongodb": "^7.1.1",

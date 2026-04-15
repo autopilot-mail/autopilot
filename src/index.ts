@@ -23,12 +23,17 @@ export { R2FileStorage, type R2FileStorageConfig } from './file-storage/r2.js';
 export { ArchilFileStorage, type ArchilFileStorageConfig } from './file-storage/archil.js';
 export { LocalFileStorage, type LocalFileStorageConfig } from './file-storage/local.js';
 
+// Events
+export { EventBus, type AutopilotEvent, type EventSubscription } from './events/bus.js';
+export { createWebSocketHandler } from './events/websocket.js';
+
 // Webhooks
 export { WebhookHandlerCore, createWebhookHandlerCore, type WebhookRequest, type WebhookResponse, type WebhookHandlerOptions } from './webhooks/handler.js';
 
 // Email utilities
 export { parseRawEmail, createPreview, type ParsedEmail } from './email/parser.js';
 export { buildMimeMessage } from './email/builder.js';
+export { extractReplyText, extractReplyHtml } from './email/reply-parser.js';
 export { resolveOrCreateThread } from './email/threading.js';
 
 // ID utilities

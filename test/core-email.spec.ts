@@ -487,6 +487,52 @@ describe('AutopilotServer E2E — Core Email Logic', () => {
     });
   });
 
+  // ── extracted_text reply stripping ──
+
+  describe('extracted_text', () => {
+    it('should strip quoted reply history from inbound email', async () => {
+      const inbox = await server.inboxes.create({ username: 'extract-test' });
+
+      const rawMime = Buffer.from(
+        [
+          'From: customer@example.com',
+          'To: extract-test@test.local',
+          'Subject: Re: Help',
+          'Content-Type: text/plain; charset=UTF-8',
+          '',
+          'Thanks, that fixed it!',
+          '',
+          'On Mon, Apr 14, 2026 at 10:00 AM Support <extract-test@test.local> wrote:',
+          '> Have you tried restarting?',
+          '> Let me know if that helps.',
+        ].join('\r\n'),
+      );
+
+      const message = await server.processInboundEmail(rawMime, 'extract-test@test.local');
+
+      // Full text includes everything
+      expect(message.text).toContain('Thanks, that fixed it!');
+      expect(message.text).toContain('Have you tried restarting?');
+
+      // extracted_text should only have the new reply
+      expect(message.extractedText).toBe('Thanks, that fixed it!');
+      expect(message.extractedText).not.toContain('Have you tried restarting?');
+    });
+
+    it('should strip signature blocks', async () => {
+      const inbox = await server.inboxes.create({ username: 'sig-test' });
+
+      const rawMime = Buffer.from(
+        ['From: user@example.com', 'To: sig-test@test.local', 'Subject: Meeting', 'Content-Type: text/plain; charset=UTF-8', '', 'See you at 3pm.', '', '-- ', 'John Smith', 'CEO, Acme Corp'].join(
+          '\r\n',
+        ),
+      );
+
+      const message = await server.processInboundEmail(rawMime, 'sig-test@test.local');
+      expect(message.extractedText).toBe('See you at 3pm.');
+    });
+  });
+
   // ── NoopTransport Assertions ──
 
   describe('NoopTransport', () => {
