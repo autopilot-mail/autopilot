@@ -131,9 +131,7 @@ describe('Live AWS Integration (SES + S3)', { timeout: 60_000 }, () => {
   it('should store inbound email in S3 file storage', async () => {
     const inbox = await client.inboxes.create({ username: `s3-inbound-${Date.now()}` });
 
-    const rawMime = Buffer.from(
-      ['From: test@external.com', `To: ${inbox.email}`, 'Subject: S3 storage test', 'Content-Type: text/plain; charset=UTF-8', '', 'Body stored in S3'].join('\r\n'),
-    );
+    const rawMime = Buffer.from(['From: test@external.com', `To: ${inbox.email}`, 'Subject: S3 storage test', 'Content-Type: text/plain; charset=UTF-8', '', 'Body stored in S3'].join('\r\n'));
 
     const message = await autopilot.processInboundEmail(rawMime, inbox.email);
     assert.ok(message.messageId);
