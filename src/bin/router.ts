@@ -21,7 +21,7 @@ export function createRouter(server: AutopilotServer, apiKeys?: string[]): Hono 
   // ── Inboxes ──
 
   app.post('/v0/inboxes', async (c) => {
-    const body = await c.req.json();
+    const body = await safeJson(c);
     const inbox = await server.inboxes.create({
       username: body.username,
       domain: body.domain,
@@ -403,10 +403,10 @@ function serializeDraft(draft: any) {
     inbox_id: draft.inboxId,
     client_id: draft.clientId,
     labels: draft.labels,
-    reply_to: draft.replyTo,
-    to: draft.to,
-    cc: draft.cc,
-    bcc: draft.bcc,
+    reply_to: toArray(draft.replyTo),
+    to: toArray(draft.to),
+    cc: toArray(draft.cc),
+    bcc: toArray(draft.bcc),
     subject: draft.subject,
     preview: draft.preview,
     text: draft.text,
@@ -442,15 +442,30 @@ function serializeDomain(domain: any) {
     pod_id: domain.podId,
     domain: domain.domain,
     status: domain.status,
-    feedback_enabled: domain.feedbackEnabled,
-    records: domain.records,
+    feedback_enabled: domain.feedbackEnabled ?? false,
+    feedbackEnabled: domain.feedbackEnabled ?? false,
+    records: domain.records ?? [],
     client_id: domain.clientId,
     created_at: domain.createdAt?.toISOString(),
     updated_at: domain.updatedAt?.toISOString(),
   };
 }
 
+async function safeJson(c: any): Promise<Record<string, any>> {
+  try {
+    const text = await c.req.text();
+    return text ? JSON.parse(text) : {};
+  } catch {
+    return {};
+  }
+}
+
 function intParam(c: any, name: string): number | undefined {
   const v = c.req.query(name);
   return v ? Number(v) : undefined;
+}
+
+function toArray(val: unknown): string[] | undefined {
+  if (val === undefined || val === null) return undefined;
+  return Array.isArray(val) ? val : [val as string];
 }
