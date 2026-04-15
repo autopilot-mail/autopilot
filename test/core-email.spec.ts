@@ -491,7 +491,7 @@ describe('AutopilotServer E2E — Core Email Logic', () => {
 
   describe('extracted_text', () => {
     it('should strip quoted reply history from inbound email', async () => {
-      const inbox = await server.inboxes.create({ username: 'extract-test' });
+      await server.inboxes.create({ username: 'extract-test' });
 
       const rawMime = Buffer.from(
         [
@@ -520,7 +520,7 @@ describe('AutopilotServer E2E — Core Email Logic', () => {
     });
 
     it('should strip signature blocks', async () => {
-      const inbox = await server.inboxes.create({ username: 'sig-test' });
+      await server.inboxes.create({ username: 'sig-test' });
 
       const rawMime = Buffer.from(
         ['From: user@example.com', 'To: sig-test@test.local', 'Subject: Meeting', 'Content-Type: text/plain; charset=UTF-8', '', 'See you at 3pm.', '', '-- ', 'John Smith', 'CEO, Acme Corp'].join(
