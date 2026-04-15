@@ -83,9 +83,9 @@ Use the migration script to pull data from hosted AgentMail and push it into Aut
 
 ```typescript
 import { AgentMailClient } from 'agentmail';
-import { AutopilotServer } from 'autopilot';
-import { PostgresStorageAdapter } from 'autopilot/storage/postgres';
-import { SesTransport } from 'autopilot/transport/ses';
+import { AutopilotServer } from '@autopilot-mail/core';
+import { PostgresStorageAdapter } from '@autopilot-mail/postgres';
+import { SesTransport } from '@autopilot-mail/ses';
 
 // Source: hosted AgentMail
 const source = new AgentMailClient({ apiKey: 'am_xxx' });
@@ -169,9 +169,9 @@ Every SDK method works unchanged: `client.inboxes.create()`, `client.inboxes.mes
 If Autopilot runs in the same process as your app:
 
 ```typescript
-import { AutopilotServer } from 'autopilot';
-import { PostgresStorageAdapter } from 'autopilot/storage/postgres';
-import { SesTransport } from 'autopilot/transport/ses';
+import { AutopilotServer } from '@autopilot-mail/core';
+import { PostgresStorageAdapter } from '@autopilot-mail/postgres';
+import { SesTransport } from '@autopilot-mail/ses';
 
 const server = new AutopilotServer({
   storage: new PostgresStorageAdapter({ connectionString: process.env.DATABASE_URL! }),

@@ -14,18 +14,18 @@ Self-hosted agentmail server SDK. This is a **library, not a server** — mount 
 ## Installation
 
 ```bash
-npm install autopilot
+npm install @autopilot-mail/core
 
 # Pick a storage adapter:
-npm install pg                    # PostgreSQL (production)
-npm install mongodb               # MongoDB (production)
-npm install better-sqlite3        # SQLite (local dev)
-# In-memory adapter included — no extra install needed
+npm install @autopilot-mail/postgres    # PostgreSQL (production)
+npm install @autopilot-mail/mongodb     # MongoDB (production)
+npm install @autopilot-mail/sqlite      # SQLite (local dev)
+# In-memory adapter included in @autopilot-mail/core — no extra install needed
 
 # Pick a transport:
-npm install @aws-sdk/client-sesv2 # AWS SES
-npm install nodemailer            # SMTP
-# NoopTransport included for testing — no extra install needed
+npm install @autopilot-mail/ses         # AWS SES
+npm install @autopilot-mail/smtp        # SMTP
+# NoopTransport included in @autopilot-mail/core — no extra install needed
 
 # For SES inbound webhooks (optional):
 npm install @aws-sdk/client-s3
@@ -34,9 +34,9 @@ npm install @aws-sdk/client-s3
 ## Setup
 
 ```typescript
-import { AutopilotServer } from 'autopilot';
-import { PostgresStorageAdapter } from 'autopilot/storage/postgres';
-import { SesTransport } from 'autopilot/transport/ses';
+import { AutopilotServer } from '@autopilot-mail/core';
+import { PostgresStorageAdapter } from '@autopilot-mail/postgres';
+import { SesTransport } from '@autopilot-mail/ses';
 
 const server = new AutopilotServer({
   storage: new PostgresStorageAdapter({
@@ -51,8 +51,8 @@ await server.initialize();
 Transport is **optional** — omit for receive-only or query-only setups:
 
 ```typescript
-import { AutopilotServer } from 'autopilot';
-import { MongoStorageAdapter } from 'autopilot/storage/mongodb';
+import { AutopilotServer } from '@autopilot-mail/core';
+import { MongoStorageAdapter } from '@autopilot-mail/mongodb';
 
 const server = new AutopilotServer({
   storage: new MongoStorageAdapter({ uri: 'mongodb://localhost:27017' }),
@@ -184,7 +184,7 @@ Mount a handler to receive inbound emails from AWS SES via SNS:
 
 ```typescript
 import express from 'express';
-import { createExpressWebhookHandler } from 'autopilot/webhooks/express';
+import { createExpressWebhookHandler } from '@autopilot-mail/core/webhooks/express';
 
 const app = express();
 app.use(express.text({ type: 'text/plain' })); // SNS sends text/plain
@@ -194,7 +194,7 @@ app.post('/webhooks/ses', createExpressWebhookHandler(server));
 For Hono:
 
 ```typescript
-import { createHonoWebhookHandler } from 'autopilot/webhooks/hono';
+import { createHonoWebhookHandler } from '@autopilot-mail/core/webhooks/hono';
 app.post('/webhooks/ses', createHonoWebhookHandler(server));
 ```
 
@@ -230,27 +230,25 @@ const { domains } = await server.domains.list();
 
 | Adapter    | Import Path                  | Install          | Use Case   |
 | ---------- | ---------------------------- | ---------------- | ---------- |
-| In-Memory  | `autopilot/storage/memory`   | (built-in)       | Testing    |
-| PostgreSQL | `autopilot/storage/postgres` | `pg`             | Production |
-| MongoDB    | `autopilot/storage/mongodb`  | `mongodb`        | Production |
-| SQLite     | `autopilot/storage/sqlite`   | `better-sqlite3` | Local dev  |
+| In-Memory  | `@autopilot-mail/core`     | (built-in)               | Testing    |
+| PostgreSQL | `@autopilot-mail/postgres` | `@autopilot-mail/postgres` | Production |
+| MongoDB    | `@autopilot-mail/mongodb`  | `@autopilot-mail/mongodb`  | Production |
+| SQLite     | `@autopilot-mail/sqlite`   | `@autopilot-mail/sqlite`   | Local dev  |
 
-Custom adapters: implement the `StorageAdapter` interface from `autopilot`.
+Custom adapters: implement the `StorageAdapter` interface from `@autopilot-mail/core`.
 
 ## Email Transports
 
 | Transport | Import Path                | Install                 |
 | --------- | -------------------------- | ----------------------- |
-| AWS SES   | `autopilot/transport/ses`  | `@aws-sdk/client-sesv2` |
-| SMTP      | `autopilot/transport/smtp` | `nodemailer`            |
-| Noop      | `autopilot/transport/noop` | (built-in)              |
+| AWS SES   | `@autopilot-mail/ses`  | `@autopilot-mail/ses`  |
+| SMTP      | `@autopilot-mail/smtp` | `@autopilot-mail/smtp` |
+| Noop      | `@autopilot-mail/core` | (built-in)             |
 
 ## Testing Pattern
 
 ```typescript
-import { AutopilotServer } from 'autopilot';
-import { InMemoryStorageAdapter } from 'autopilot/storage/memory';
-import { NoopTransport } from 'autopilot/transport/noop';
+import { AutopilotServer, InMemoryStorageAdapter, NoopTransport } from '@autopilot-mail/core';
 
 const transport = new NoopTransport();
 const server = new AutopilotServer({

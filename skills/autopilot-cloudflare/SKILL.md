@@ -101,10 +101,10 @@ npx autopilot --config ./autopilot.toml
 ### SDK usage
 
 ```typescript
-import { AutopilotServer } from 'autopilot';
-import { D1StorageAdapter } from 'autopilot/storage/d1';
-import { R2FileStorage } from 'autopilot/file-storage/r2';
-import { SmtpTransport } from 'autopilot/transport/smtp';
+import { AutopilotServer } from '@autopilot-mail/core';
+import { D1StorageAdapter } from '@autopilot-mail/d1';
+import { R2FileStorage } from '@autopilot-mail/r2';
+import { SmtpTransport } from '@autopilot-mail/smtp';
 
 const server = new AutopilotServer({
   storage: new D1StorageAdapter({
@@ -145,7 +145,7 @@ For a fully serverless deployment on the edge:
 ```bash
 mkdir autopilot-worker && cd autopilot-worker
 npm init -y
-npm install autopilot hono
+npm install @autopilot-mail/core hono
 ```
 
 ### wrangler.toml
@@ -179,9 +179,7 @@ wrangler secret put API_KEY
 
 ```typescript
 import { Hono } from 'hono';
-import { AutopilotServer } from 'autopilot';
-import { InMemoryStorageAdapter } from 'autopilot/storage/memory';
-import { NoopTransport } from 'autopilot/transport/noop';
+import { AutopilotServer, InMemoryStorageAdapter, NoopTransport } from '@autopilot-mail/core';
 
 // Note: In a full Workers deployment, you'd use D1/R2 bindings directly.
 // The D1StorageAdapter REST client also works from Workers but adds latency.

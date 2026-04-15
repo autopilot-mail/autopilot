@@ -22,7 +22,7 @@ This guide provisions everything needed to run a self-hosted Autopilot email ser
 aws sts get-caller-identity
 
 # Install Autopilot
-npm install autopilot
+npm install @autopilot-mail/core
 ```
 
 ## 1. AWS SES — Domain Verification
