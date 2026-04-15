@@ -3,7 +3,7 @@ name: autopilot-migrate
 description: Migrate from hosted AgentMail to self-hosted Autopilot. Use when switching from agentmail.to to your own infrastructure, migrating existing inboxes and message history, setting up DNS cutover, redirecting the agentmail client SDK to a self-hosted endpoint, or running both in parallel during transition.
 license: MIT
 metadata:
-  author: cerebralvalley
+  author: autopilot-mail
   version: '0.1'
 ---
 

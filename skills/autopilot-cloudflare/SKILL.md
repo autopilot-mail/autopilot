@@ -3,7 +3,7 @@ name: autopilot-cloudflare
 description: Deploy Autopilot on the Cloudflare stack — D1 for database, R2 for file storage, Workers for hosting, and Email Routing for inbound email. Use when you want a fully serverless Autopilot deployment without AWS, or when you want zero-cold-start email infrastructure on Cloudflare's edge network.
 license: MIT
 metadata:
-  author: cerebralvalley
+  author: autopilot-mail
   version: '0.1'
 ---
 

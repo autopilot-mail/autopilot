@@ -3,7 +3,7 @@ name: autopilot-setup
 description: Step-by-step guide to provision all cloud infrastructure needed to run Autopilot — AWS SES domain verification, S3 bucket for inbound email, SNS topic wiring, DNS records (SPF/DKIM/DMARC), PostgreSQL database, and Docker deployment. Use when setting up a new Autopilot instance from scratch, configuring AWS for email sending/receiving, or debugging DNS/deliverability issues.
 license: MIT
 metadata:
-  author: cerebralvalley
+  author: autopilot-mail
   version: '0.1'
 ---
 
