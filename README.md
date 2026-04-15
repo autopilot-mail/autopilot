@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="static/header.jpeg" alt="autopilot mail" width="100%" />
+</p>
+
 # autopilot
 
 Self-hosted email server SDK for AI agents. Pluggable storage, email transports, and webhook handlers for agent email inboxes.

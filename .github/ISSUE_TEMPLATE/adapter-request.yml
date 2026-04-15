@@ -1,0 +1,35 @@
+name: New Adapter/Provider
+description: Request a new storage, transport, or file storage adapter
+labels: ['enhancement', 'adapter']
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: Adapter type
+      options:
+        - Storage adapter (database)
+        - Email transport (sending)
+        - File storage provider (attachments)
+    validations:
+      required: true
+
+  - type: input
+    id: service
+    attributes:
+      label: Service/technology
+      placeholder: 'e.g. Turso, Resend, GCS, MinIO'
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Links to docs, why this would be useful, any prior art.
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I'm willing to implement this and submit a PR
