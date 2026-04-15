@@ -4,7 +4,7 @@ description: Deploy Autopilot on the Cloudflare stack — D1 for database, R2 fo
 license: MIT
 metadata:
   author: autopilot-mail
-  version: '0.1'
+  version: '1.0'
 ---
 
 # Autopilot on Cloudflare

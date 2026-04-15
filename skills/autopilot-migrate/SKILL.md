@@ -4,7 +4,7 @@ description: Migrate from hosted AgentMail to self-hosted Autopilot. Use when sw
 license: MIT
 metadata:
   author: autopilot-mail
-  version: '0.1'
+  version: '1.0'
 ---
 
 # Migrate from AgentMail to Autopilot

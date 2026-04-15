@@ -4,7 +4,7 @@ description: Self-host agentmail with pluggable storage and transports. Use when
 license: MIT
 metadata:
   author: breezy
-  version: '0.1'
+  version: '1.0'
 ---
 
 # autopilot

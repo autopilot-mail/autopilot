@@ -4,7 +4,7 @@ description: Step-by-step guide to provision all cloud infrastructure needed to 
 license: MIT
 metadata:
   author: autopilot-mail
-  version: '0.1'
+  version: '1.0'
 ---
 
 # Autopilot Setup Guide
