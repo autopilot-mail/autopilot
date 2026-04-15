@@ -1,0 +1,168 @@
+{
+  "name": "autopilot",
+  "version": "0.1.0",
+  "description": "Self-hosted email server SDK for AI agents — pluggable storage, transports, and webhook handlers for agent email inboxes",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "autopilot": "./dist/bin/serve.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./storage/postgres": {
+      "types": "./dist/storage/postgres.d.ts",
+      "import": "./dist/storage/postgres.js"
+    },
+    "./storage/mongodb": {
+      "types": "./dist/storage/mongodb.d.ts",
+      "import": "./dist/storage/mongodb.js"
+    },
+    "./storage/sqlite": {
+      "types": "./dist/storage/sqlite.d.ts",
+      "import": "./dist/storage/sqlite.js"
+    },
+    "./storage/memory": {
+      "types": "./dist/storage/memory.d.ts",
+      "import": "./dist/storage/memory.js"
+    },
+    "./storage/d1": {
+      "types": "./dist/storage/d1.d.ts",
+      "import": "./dist/storage/d1.js"
+    },
+    "./transport/ses": {
+      "types": "./dist/transport/ses.d.ts",
+      "import": "./dist/transport/ses.js"
+    },
+    "./transport/smtp": {
+      "types": "./dist/transport/smtp.d.ts",
+      "import": "./dist/transport/smtp.js"
+    },
+    "./transport/noop": {
+      "types": "./dist/transport/noop.d.ts",
+      "import": "./dist/transport/noop.js"
+    },
+    "./file-storage/s3": {
+      "types": "./dist/file-storage/s3.d.ts",
+      "import": "./dist/file-storage/s3.js"
+    },
+    "./file-storage/r2": {
+      "types": "./dist/file-storage/r2.d.ts",
+      "import": "./dist/file-storage/r2.js"
+    },
+    "./file-storage/archil": {
+      "types": "./dist/file-storage/archil.d.ts",
+      "import": "./dist/file-storage/archil.js"
+    },
+    "./file-storage/local": {
+      "types": "./dist/file-storage/local.d.ts",
+      "import": "./dist/file-storage/local.js"
+    },
+    "./file-storage/memory": {
+      "types": "./dist/file-storage/memory.d.ts",
+      "import": "./dist/file-storage/memory.js"
+    },
+    "./webhooks/express": {
+      "types": "./dist/webhooks/express.d.ts",
+      "import": "./dist/webhooks/express.js"
+    },
+    "./webhooks/hono": {
+      "types": "./dist/webhooks/hono.d.ts",
+      "import": "./dist/webhooks/hono.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "autopilot.toml",
+    "Dockerfile"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint --fix .",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check .",
+    "test": "bun test test/",
+    "test:e2e": "bun test test/",
+    "start": "node dist/bin/serve.js",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.14",
+    "hono": "^4.7.10",
+    "mailparser": "^3.7.2",
+    "smol-toml": "^1.6.1"
+  },
+  "peerDependencies": {
+    "@archildata/client": "^0.1.0",
+    "@archildata/just-bash": "^0.1.0",
+    "@aws-sdk/client-s3": "^3.0.0",
+    "@aws-sdk/client-sesv2": "^3.0.0",
+    "@aws-sdk/s3-request-presigner": "^3.0.0",
+    "better-sqlite3": "^11.0.0",
+    "drizzle-orm": "^0.44.0",
+    "express": "^4.0.0 || ^5.0.0",
+    "mongodb": "^6.0.0",
+    "nodemailer": "^6.0.0",
+    "pg": "^8.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@archildata/client": {
+      "optional": true
+    },
+    "@archildata/just-bash": {
+      "optional": true
+    },
+    "@aws-sdk/client-s3": {
+      "optional": true
+    },
+    "@aws-sdk/client-sesv2": {
+      "optional": true
+    },
+    "@aws-sdk/s3-request-presigner": {
+      "optional": true
+    },
+    "better-sqlite3": {
+      "optional": true
+    },
+    "drizzle-orm": {
+      "optional": true
+    },
+    "express": {
+      "optional": true
+    },
+    "mongodb": {
+      "optional": true
+    },
+    "nodemailer": {
+      "optional": true
+    },
+    "pg": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@aws-sdk/client-s3": "^3.1030.0",
+    "@aws-sdk/client-sesv2": "^3.1030.0",
+    "@aws-sdk/s3-request-presigner": "^3.1030.0",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/express": "^5.0.0",
+    "@types/mailparser": "^3.4.5",
+    "@types/nodemailer": "^6.4.17",
+    "@types/pg": "^8.11.11",
+    "mongodb": "^7.1.1",
+    "oxfmt": "^0.45.0",
+    "oxlint": "^1.60.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

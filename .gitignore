@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Runtime data
+*.db
+*.db-journal
+*.db-wal
+autopilot-files/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Coverage
+coverage/
+
+# Lock files (optional — uncomment if you prefer not tracking it)
+# package-lock.json
+
+# TOML config with secrets (the example is committed, local overrides are not)
+config.toml

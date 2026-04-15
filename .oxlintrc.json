@@ -1,0 +1,10 @@
+{
+  "rules": {
+    "no-unused-vars": "error",
+    "no-explicit-any": "warn",
+    "no-non-null-assertion": "off",
+    "no-console": "off",
+    "no-unused-expressions": "error"
+  },
+  "ignorePatterns": ["node_modules", "dist", "*.js", "**/*.gen.ts"]
+}
