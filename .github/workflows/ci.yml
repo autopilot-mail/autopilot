@@ -47,7 +47,7 @@ jobs:
         run: npx tsc --noEmit
 
   test:
-    name: Test
+    name: Unit Tests
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
@@ -61,8 +61,11 @@ jobs:
 
       - run: npm ci
 
-      - name: Run tests
-        run: bun test test/
+      - name: Run unit tests
+        run: bun test test/core-email.spec.ts test/agentmail-sdk-compat.spec.ts
+
+  # Integration tests require Docker (testcontainers) — run locally with:
+  #   npm run test:integration
 
   build:
     name: Build Packages
