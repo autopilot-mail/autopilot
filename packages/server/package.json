@@ -1,6 +1,6 @@
 {
   "name": "@autopilot-mail/server",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Standalone Autopilot email server — TOML config, REST API, Docker-ready",
   "license": "MIT",
   "type": "module",
@@ -24,7 +24,7 @@
     "Dockerfile"
   ],
   "dependencies": {
-    "@autopilot-mail/core": "^0.1.0",
+    "@autopilot-mail/core": "^1.0.0",
     "@hono/node-server": "^1.14.0",
     "hono": "^4.7.0",
     "smol-toml": "^1.6.0"

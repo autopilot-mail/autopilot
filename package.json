@@ -1,6 +1,6 @@
 {
   "name": "autopilot",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Self-hosted email server SDK for AI agents — pluggable storage, transports, and webhook handlers for agent email inboxes",
   "license": "MIT",
   "type": "module",

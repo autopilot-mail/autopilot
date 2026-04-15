@@ -1,6 +1,6 @@
 {
   "name": "@autopilot-mail/d1",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Cloudflare D1 storage adapter for Autopilot",
   "license": "MIT",
   "type": "module",
@@ -16,7 +16,7 @@
     "dist"
   ],
   "dependencies": {
-    "@autopilot-mail/core": "^0.1.0"
+    "@autopilot-mail/core": "^1.0.0"
   },
   "engines": {
     "node": ">=18.0.0"

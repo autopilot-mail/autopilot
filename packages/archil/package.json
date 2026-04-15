@@ -1,6 +1,6 @@
 {
   "name": "@autopilot-mail/archil",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Archil file storage for Autopilot",
   "license": "MIT",
   "type": "module",
@@ -16,7 +16,7 @@
     "dist"
   ],
   "dependencies": {
-    "@autopilot-mail/core": "^0.1.0"
+    "@autopilot-mail/core": "^1.0.0"
   },
   "peerDependencies": {
     "@archildata/client": "^0.1.0",

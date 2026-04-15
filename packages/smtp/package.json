@@ -1,6 +1,6 @@
 {
   "name": "@autopilot-mail/smtp",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "SMTP email transport for Autopilot",
   "license": "MIT",
   "type": "module",
@@ -16,7 +16,7 @@
     "dist"
   ],
   "dependencies": {
-    "@autopilot-mail/core": "^0.1.0"
+    "@autopilot-mail/core": "^1.0.0"
   },
   "peerDependencies": {
     "nodemailer": "^6.0.0"

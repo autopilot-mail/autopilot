@@ -1,6 +1,6 @@
 {
   "name": "@autopilot-mail/core",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Core autopilot email server SDK — types, server, in-memory adapters, email utilities",
   "license": "MIT",
   "type": "module",
