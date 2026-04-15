@@ -132,7 +132,14 @@ The REST API is compatible with the official [AgentMail SDK](https://www.npmjs.c
 - [Testing](docs/guides/testing.md) — in-memory adapters, NoopTransport, assertions
 - [Examples](examples/) — runnable code samples
 
-**Setup skills** (step-by-step CLI walkthroughs)
+**Skills** (step-by-step setup guides for AI coding assistants)
+
+```bash
+npx skills add autopilot-mail/autopilot          # core SDK skill
+npx skills add autopilot-mail/autopilot-setup     # AWS SES, S3, DNS, Postgres
+npx skills add autopilot-mail/autopilot-cloudflare # D1, R2, Workers
+npx skills add autopilot-mail/autopilot-migrate   # migrate from AgentMail
+```
 
 - [AWS Setup](skills/autopilot-setup/SKILL.md) — SES, S3, SNS, DNS, Postgres
 - [Cloudflare Setup](skills/autopilot-cloudflare/SKILL.md) — D1, R2, Workers, Email Routing
