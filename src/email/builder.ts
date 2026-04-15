@@ -1,92 +1,50 @@
 import type { TransportSendParams } from '../transport/adapter.js';
 
-export function buildMimeMessage(params: TransportSendParams): string {
-  const boundary = `----=_Part_${crypto.randomUUID().replace(/-/g, '')}`;
-  const lines: string[] = [];
+/**
+ * Build a raw RFC 5322 MIME message from send params.
+ *
+ * Uses nodemailer's MailComposer for proper MIME construction —
+ * handles content-transfer-encoding, RFC 2047 header encoding,
+ * multipart boundaries, and attachment encoding correctly.
+ */
+export async function buildMimeMessage(params: TransportSendParams): Promise<string> {
+  // Dynamic import — nodemailer is needed for proper MIME construction
+  const MailComposer = (await import('nodemailer/lib/mail-composer.js' as string)).default;
 
-  lines.push(`From: ${params.from}`);
-  lines.push(`To: ${params.to.join(', ')}`);
-  if (params.cc?.length) lines.push(`Cc: ${params.cc.join(', ')}`);
-  lines.push(`Subject: ${params.subject}`);
-  if (params.replyTo?.length) lines.push(`Reply-To: ${params.replyTo.join(', ')}`);
-  if (params.inReplyTo) lines.push(`In-Reply-To: ${params.inReplyTo}`);
-  if (params.references?.length) lines.push(`References: ${params.references.join(' ')}`);
+  const mailOptions: Record<string, unknown> = {
+    from: params.from,
+    to: params.to.join(', '),
+    subject: params.subject,
+  };
+
+  if (params.cc?.length) mailOptions.cc = params.cc.join(', ');
+  if (params.bcc?.length) mailOptions.bcc = params.bcc.join(', ');
+  if (params.replyTo?.length) mailOptions.replyTo = params.replyTo.join(', ');
+  if (params.text) mailOptions.text = params.text;
+  if (params.html) mailOptions.html = params.html;
+  if (params.inReplyTo) mailOptions.inReplyTo = params.inReplyTo;
+  if (params.references?.length) mailOptions.references = params.references.join(' ');
 
   if (params.headers) {
-    for (const [key, value] of Object.entries(params.headers)) {
-      lines.push(`${key}: ${value}`);
-    }
+    mailOptions.headers = params.headers;
   }
 
-  lines.push(`MIME-Version: 1.0`);
-
-  const hasAttachments = params.attachments && params.attachments.length > 0;
-  const hasHtml = !!params.html;
-  const hasText = !!params.text;
-
-  if (hasAttachments) {
-    lines.push(`Content-Type: multipart/mixed; boundary="${boundary}"`);
-    lines.push('');
-
-    // Text body
-    if (hasText) {
-      lines.push(`--${boundary}`);
-      lines.push(`Content-Type: text/plain; charset=UTF-8`);
-      lines.push(`Content-Transfer-Encoding: 7bit`);
-      lines.push('');
-      lines.push(params.text!);
-    }
-
-    // HTML body
-    if (hasHtml) {
-      lines.push(`--${boundary}`);
-      lines.push(`Content-Type: text/html; charset=UTF-8`);
-      lines.push(`Content-Transfer-Encoding: 7bit`);
-      lines.push('');
-      lines.push(params.html!);
-    }
-
-    // Attachments
-    for (const att of params.attachments!) {
-      lines.push(`--${boundary}`);
-      const ct = att.contentType ?? 'application/octet-stream';
-      if (att.filename) {
-        lines.push(`Content-Type: ${ct}; name="${att.filename}"`);
-        lines.push(`Content-Disposition: ${att.contentDisposition ?? 'attachment'}; filename="${att.filename}"`);
-      } else {
-        lines.push(`Content-Type: ${ct}`);
-      }
-      if (att.contentId) {
-        lines.push(`Content-ID: <${att.contentId}>`);
-      }
-      lines.push(`Content-Transfer-Encoding: base64`);
-      lines.push('');
-      lines.push(att.content.toString('base64'));
-    }
-
-    lines.push(`--${boundary}--`);
-  } else if (hasHtml && hasText) {
-    const altBoundary = `----=_Alt_${crypto.randomUUID().replace(/-/g, '')}`;
-    lines.push(`Content-Type: multipart/alternative; boundary="${altBoundary}"`);
-    lines.push('');
-    lines.push(`--${altBoundary}`);
-    lines.push(`Content-Type: text/plain; charset=UTF-8`);
-    lines.push('');
-    lines.push(params.text!);
-    lines.push(`--${altBoundary}`);
-    lines.push(`Content-Type: text/html; charset=UTF-8`);
-    lines.push('');
-    lines.push(params.html!);
-    lines.push(`--${altBoundary}--`);
-  } else if (hasHtml) {
-    lines.push(`Content-Type: text/html; charset=UTF-8`);
-    lines.push('');
-    lines.push(params.html!);
-  } else {
-    lines.push(`Content-Type: text/plain; charset=UTF-8`);
-    lines.push('');
-    lines.push(params.text ?? '');
+  if (params.attachments?.length) {
+    mailOptions.attachments = params.attachments.map((att) => ({
+      filename: att.filename,
+      content: att.content,
+      contentType: att.contentType,
+      cid: att.contentId,
+      contentDisposition: att.contentDisposition ?? 'attachment',
+    }));
   }
 
-  return lines.join('\r\n');
+  const composer = new MailComposer(mailOptions);
+
+  return new Promise<string>((resolve, reject) => {
+    composer.compile().build((err: Error | null, message: Buffer) => {
+      if (err) return reject(err);
+      resolve(message.toString());
+    });
+  });
 }

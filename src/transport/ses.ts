@@ -35,7 +35,7 @@ export class SesTransport implements EmailTransport {
 
     // Use raw MIME when we have attachments or custom headers that SES Simple mode doesn't support
     if (hasAttachments || hasCustomHeaders) {
-      const rawMessage = buildMimeMessage(params);
+      const rawMessage = await buildMimeMessage(params);
 
       const result = await this.client.send(
         new SendEmailCommand({
