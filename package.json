@@ -83,16 +83,18 @@
   ],
   "scripts": {
     "build": "tsc",
+    "build:packages": "node scripts/build-packages.cjs",
     "dev": "tsc --watch",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist packages/*/dist",
     "lint": "oxlint .",
     "lint:fix": "oxlint --fix .",
     "format": "oxfmt --write .",
     "format:check": "oxfmt --check .",
     "test": "bun test test/",
-    "test:e2e": "bun test test/",
     "start": "node dist/bin/serve.js",
-    "prepublishOnly": "npm run clean && npm run build"
+    "version:bump": "bash scripts/version.sh",
+    "publish:dry": "DRY_RUN=true bash scripts/publish.sh",
+    "publish:all": "bash scripts/publish.sh"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.14",

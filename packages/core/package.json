@@ -1,0 +1,74 @@
+{
+  "name": "@autopilot-mail/core",
+  "version": "0.1.0",
+  "description": "Core autopilot email server SDK — types, server, in-memory adapters, email utilities",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./storage/memory": {
+      "types": "./dist/storage/memory.d.ts",
+      "import": "./dist/storage/memory.js"
+    },
+    "./transport/noop": {
+      "types": "./dist/transport/noop.d.ts",
+      "import": "./dist/transport/noop.js"
+    },
+    "./file-storage/memory": {
+      "types": "./dist/file-storage/memory.d.ts",
+      "import": "./dist/file-storage/memory.js"
+    },
+    "./file-storage/local": {
+      "types": "./dist/file-storage/local.d.ts",
+      "import": "./dist/file-storage/local.js"
+    },
+    "./webhooks/express": {
+      "types": "./dist/webhooks/express.d.ts",
+      "import": "./dist/webhooks/express.js"
+    },
+    "./webhooks/hono": {
+      "types": "./dist/webhooks/hono.d.ts",
+      "import": "./dist/webhooks/hono.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "dependencies": {
+    "mailparser": "^3.7.2"
+  },
+  "peerDependencies": {
+    "express": "^4.0.0 || ^5.0.0",
+    "hono": "^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "express": {
+      "optional": true
+    },
+    "hono": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cerebralvalley/autopilot"
+  },
+  "keywords": [
+    "email",
+    "agent",
+    "ai",
+    "inbox",
+    "ses",
+    "smtp",
+    "mail"
+  ]
+}

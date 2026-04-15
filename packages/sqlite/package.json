@@ -1,0 +1,37 @@
+{
+  "name": "@autopilot-mail/sqlite",
+  "version": "0.1.0",
+  "description": "SQLite storage adapter for Autopilot",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/storage/sqlite.js",
+  "types": "./dist/storage/sqlite.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/storage/sqlite.d.ts",
+      "import": "./dist/storage/sqlite.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@autopilot-mail/core": "^0.1.0"
+  },
+  "peerDependencies": {
+    "better-sqlite3": "^11.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cerebralvalley/autopilot"
+  },
+  "keywords": [
+    "autopilot",
+    "email",
+    "sqlite",
+    "storage"
+  ]
+}

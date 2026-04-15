@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Format check
+        run: npx oxfmt --check .
+
+      - name: Lint
+        run: npx oxlint .
+
+  typecheck:
+    name: Type Check
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+  test:
+    name: Test
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - uses: oven-sh/setup-bun@v2
+
+      - run: npm ci
+
+      - name: Run tests
+        run: bun test test/
+
+  build:
+    name: Build Packages
+    runs-on: self-hosted
+    needs: [lint, typecheck, test]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Build
+        run: node scripts/build-packages.cjs
+
+      - name: Verify packages
+        run: |
+          for pkg in core postgres mongodb sqlite d1 ses smtp s3 r2 archil server; do
+            echo "--- $pkg ---"
+            npm pack --dry-run ./packages/$pkg 2>&1 | grep "package size"
+          done

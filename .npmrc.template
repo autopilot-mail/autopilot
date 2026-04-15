@@ -1,0 +1,6 @@
+# Copy this to .npmrc and fill in your token
+# npm login --scope=@autopilot-mail --registry=https://registry.npmjs.org
+# Or set the token directly:
+
+//registry.npmjs.org/:_authToken=YOUR_NPM_TOKEN_HERE
+@autopilot-mail:registry=https://registry.npmjs.org

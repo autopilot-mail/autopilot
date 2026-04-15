@@ -1,0 +1,38 @@
+{
+  "name": "@autopilot-mail/ses",
+  "version": "0.1.0",
+  "description": "AWS SES email transport for Autopilot",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/transport/ses.js",
+  "types": "./dist/transport/ses.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/transport/ses.d.ts",
+      "import": "./dist/transport/ses.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@autopilot-mail/core": "^0.1.0"
+  },
+  "peerDependencies": {
+    "@aws-sdk/client-sesv2": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cerebralvalley/autopilot"
+  },
+  "keywords": [
+    "autopilot",
+    "email",
+    "ses",
+    "aws",
+    "transport"
+  ]
+}

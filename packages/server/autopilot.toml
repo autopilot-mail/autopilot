@@ -1,0 +1,105 @@
+# ─── Autopilot Server Configuration ───
+# Copy this file and adjust for your environment.
+
+[server]
+port = 3100
+host = "0.0.0.0"
+domain = "mail.example.com" # Default domain for new inboxes
+# pod_id = "default"              # Pod ID for multi-tenant isolation
+# api_keys = ["ap_key_1", "ap_key_2"]  # Bearer tokens for auth
+
+# ─── Storage ───
+# Supported adapters: postgres, mongodb, sqlite, d1, memory
+
+[storage]
+adapter = "memory" # Data lost on restart — switch to postgres/sqlite/d1 for persistence
+
+# PostgreSQL:
+# adapter = "postgres"
+# connection_string = "postgresql://user:pass@localhost:5432/autopilot"
+# schema = "autopilot"
+
+# MongoDB:
+# adapter = "mongodb"
+# connection_string = "mongodb://localhost:27017"
+# database = "autopilot"
+
+# Cloudflare D1 (SQLite-compatible, serverless):
+# adapter = "d1"
+# account_id = "your-cloudflare-account-id"
+# database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+# api_token = "your-cloudflare-api-token"
+
+# In-memory (testing only, data lost on restart):
+# adapter = "memory"
+
+# ─── Email Transport ───
+# Supported adapters: ses, smtp, noop
+# Omit this section entirely for receive-only / query-only mode.
+
+[transport]
+adapter = "noop" # noop = records sends but doesn't deliver
+
+# AWS SES:
+# adapter = "ses"
+# region = "us-east-1"
+# configuration_set = "my-config-set"  # Optional
+
+# SMTP:
+# adapter = "smtp"
+# host = "smtp.gmail.com"
+# port = 587
+# secure = false
+# user = "bot@gmail.com"
+# pass = "app-password"
+
+# ─── File Storage (raw messages + attachments) ───
+# Supported adapters: s3, archil, local, memory
+# Omit this section to store files inline in the database adapter.
+
+# [file_storage]
+# adapter = "s3"
+# region = "us-east-1"
+# bucket = "my-autopilot-files"
+# prefix = "autopilot"              # S3 key prefix (default: "autopilot")
+
+# Cloudflare R2 (S3-compatible):
+# adapter = "r2"
+# account_id = "your-cloudflare-account-id"
+# bucket = "autopilot-files"
+# access_key_id = "your-r2-access-key"
+# secret_access_key = "your-r2-secret-key"
+# prefix = "autopilot"
+
+# Archil (https://docs.archil.com):
+# adapter = "archil"
+# region = "aws-us-east-1"
+# disk_name = "myorg/mydisk"
+# auth_token = "adt_xxx"            # Or use ARCHIL_DISK_TOKEN env var
+# prefix = "/autopilot"
+
+# Local filesystem:
+# adapter = "local"
+# directory = "./autopilot-files"
+
+# In-memory (testing only):
+# adapter = "memory"
+
+# ─── S3 (for SES inbound emails) ───
+# Required only if using SES webhook handler to receive inbound mail.
+
+# [s3]
+# region = "us-east-1"
+# bucket = "my-ses-inbound-emails"
+
+# ─── Webhooks ───
+
+# [webhooks]
+# dispatch = true                 # Dispatch events to registered webhook URLs
+# ses_endpoint = "/webhooks/ses"  # Mount SES/SNS webhook handler at this path
+# verify_sns_signature = true     # Verify SNS message signatures (recommended)
+
+# ─── Logging ───
+
+[logging]
+level = "info" # debug, info, warn, error

@@ -1,0 +1,37 @@
+{
+  "name": "@autopilot-mail/postgres",
+  "version": "0.1.0",
+  "description": "PostgreSQL storage adapter for Autopilot",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/storage/postgres.js",
+  "types": "./dist/storage/postgres.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/storage/postgres.d.ts",
+      "import": "./dist/storage/postgres.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@autopilot-mail/core": "^0.1.0"
+  },
+  "peerDependencies": {
+    "pg": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cerebralvalley/autopilot"
+  },
+  "keywords": [
+    "autopilot",
+    "email",
+    "postgres",
+    "storage"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "@autopilot-mail/smtp",
+  "version": "0.1.0",
+  "description": "SMTP email transport for Autopilot",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/transport/smtp.js",
+  "types": "./dist/transport/smtp.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/transport/smtp.d.ts",
+      "import": "./dist/transport/smtp.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@autopilot-mail/core": "^0.1.0"
+  },
+  "peerDependencies": {
+    "nodemailer": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cerebralvalley/autopilot"
+  },
+  "keywords": [
+    "autopilot",
+    "email",
+    "smtp",
+    "transport",
+    "nodemailer"
+  ]
+}

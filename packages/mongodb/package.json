@@ -1,0 +1,37 @@
+{
+  "name": "@autopilot-mail/mongodb",
+  "version": "0.1.0",
+  "description": "MongoDB storage adapter for Autopilot",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/storage/mongodb.js",
+  "types": "./dist/storage/mongodb.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/storage/mongodb.d.ts",
+      "import": "./dist/storage/mongodb.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@autopilot-mail/core": "^0.1.0"
+  },
+  "peerDependencies": {
+    "mongodb": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cerebralvalley/autopilot"
+  },
+  "keywords": [
+    "autopilot",
+    "email",
+    "mongodb",
+    "storage"
+  ]
+}

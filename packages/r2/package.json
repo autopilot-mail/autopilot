@@ -1,0 +1,45 @@
+{
+  "name": "@autopilot-mail/r2",
+  "version": "0.1.0",
+  "description": "Cloudflare R2 file storage for Autopilot",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/file-storage/r2.js",
+  "types": "./dist/file-storage/r2.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/file-storage/r2.d.ts",
+      "import": "./dist/file-storage/r2.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@autopilot-mail/core": "^0.1.0"
+  },
+  "peerDependencies": {
+    "@aws-sdk/client-s3": "^3.0.0",
+    "@aws-sdk/s3-request-presigner": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@aws-sdk/s3-request-presigner": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cerebralvalley/autopilot"
+  },
+  "keywords": [
+    "autopilot",
+    "email",
+    "r2",
+    "cloudflare",
+    "storage",
+    "file"
+  ]
+}

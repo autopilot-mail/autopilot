@@ -1,0 +1,39 @@
+{
+  "name": "@autopilot-mail/archil",
+  "version": "0.1.0",
+  "description": "Archil file storage for Autopilot",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/file-storage/archil.js",
+  "types": "./dist/file-storage/archil.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/file-storage/archil.d.ts",
+      "import": "./dist/file-storage/archil.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@autopilot-mail/core": "^0.1.0"
+  },
+  "peerDependencies": {
+    "@archildata/client": "^0.1.0",
+    "@archildata/just-bash": "^0.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cerebralvalley/autopilot"
+  },
+  "keywords": [
+    "autopilot",
+    "email",
+    "archil",
+    "storage",
+    "file"
+  ]
+}

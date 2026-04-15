@@ -3,6 +3,7 @@ node_modules/
 
 # Build output
 dist/
+packages/*/dist/
 
 # Runtime data
 *.db
@@ -35,6 +36,9 @@ coverage/
 
 # Lock files (optional — uncomment if you prefer not tracking it)
 # package-lock.json
+
+# npm auth (contains tokens — never commit)
+.npmrc
 
 # TOML config with secrets (the example is committed, local overrides are not)
 config.toml

@@ -1,0 +1,46 @@
+{
+  "name": "@autopilot-mail/server",
+  "version": "0.1.0",
+  "description": "Standalone Autopilot email server — TOML config, REST API, Docker-ready",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/bin/serve.js",
+  "bin": {
+    "autopilot": "./dist/bin/serve.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/bin/serve.d.ts",
+      "import": "./dist/bin/serve.js"
+    },
+    "./router": {
+      "types": "./dist/bin/router.d.ts",
+      "import": "./dist/bin/router.js"
+    }
+  },
+  "files": [
+    "dist",
+    "autopilot.toml",
+    "Dockerfile"
+  ],
+  "dependencies": {
+    "@autopilot-mail/core": "^0.1.0",
+    "@hono/node-server": "^1.14.0",
+    "hono": "^4.7.0",
+    "smol-toml": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cerebralvalley/autopilot"
+  },
+  "keywords": [
+    "autopilot",
+    "email",
+    "server",
+    "cli",
+    "docker"
+  ]
+}

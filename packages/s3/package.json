@@ -1,0 +1,45 @@
+{
+  "name": "@autopilot-mail/s3",
+  "version": "0.1.0",
+  "description": "AWS S3 file storage for Autopilot",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/file-storage/s3.js",
+  "types": "./dist/file-storage/s3.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/file-storage/s3.d.ts",
+      "import": "./dist/file-storage/s3.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@autopilot-mail/core": "^0.1.0"
+  },
+  "peerDependencies": {
+    "@aws-sdk/client-s3": "^3.0.0",
+    "@aws-sdk/s3-request-presigner": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@aws-sdk/s3-request-presigner": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cerebralvalley/autopilot"
+  },
+  "keywords": [
+    "autopilot",
+    "email",
+    "s3",
+    "aws",
+    "storage",
+    "file"
+  ]
+}
