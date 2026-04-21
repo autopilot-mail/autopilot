@@ -28,6 +28,9 @@ export function createHonoWebhookHandler(server: AutopilotServer, options?: Webh
       method: c.req.method,
     });
 
-    return c.json(response.body ? JSON.parse(response.body) : {}, response.status, response.headers);
+    // The underlying handler always returns a plain-text body like "OK", "Invalid signature",
+    // or "Internal server error" — never JSON. JSON.parse("OK") throws SyntaxError and Hono
+    // returns 500. Respond with c.text to pass the body through unchanged.
+    return c.text(response.body ?? '', response.status as any, response.headers);
   };
 }
