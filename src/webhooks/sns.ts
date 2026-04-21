@@ -84,24 +84,14 @@ export async function verifySnsSignature(message: SnsMessage): Promise<boolean> 
     const certResponse = await fetch(message.SigningCertURL);
     const certPem = await certResponse.text();
 
-    // Verify using Web Crypto (Node.js 18+)
-    const certDer = pemToDer(certPem);
-    const publicKey = await crypto.subtle.importKey('spki', certDer, { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-1' }, false, ['verify']);
-
-    const signatureBytes = Buffer.from(message.Signature, 'base64');
-    const dataBytes = new TextEncoder().encode(stringToSign);
-
-    return crypto.subtle.verify('RSASSA-PKCS1-v1_5', publicKey, signatureBytes, dataBytes);
+    // Web Crypto's importKey('spki', ...) expects a SubjectPublicKeyInfo — the public
+    // key only, not a full X.509 certificate. AWS SNS's SigningCertURL returns a full
+    // cert, so the previous implementation silently failed every verification. Node's
+    // createPublicKey parses the cert and extracts the SPKI for us.
+    const { createPublicKey, createVerify } = await import('node:crypto');
+    const publicKey = createPublicKey(certPem);
+    return createVerify('RSA-SHA1').update(stringToSign).verify(publicKey, message.Signature, 'base64');
   } catch {
     return false;
   }
-}
-
-function pemToDer(pem: string): ArrayBuffer {
-  // Extract the certificate from PEM (there may be multiple certs, use the first)
-  const match = pem.match(/-----BEGIN CERTIFICATE-----\s*([\s\S]*?)\s*-----END CERTIFICATE-----/);
-  if (!match) throw new Error('Invalid PEM certificate');
-  const b64 = match[1].replace(/\s/g, '');
-  const binary = Buffer.from(b64, 'base64');
-  return binary.buffer.slice(binary.byteOffset, binary.byteOffset + binary.byteLength);
 }
