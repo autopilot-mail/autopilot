@@ -9,6 +9,7 @@ export interface SnsMessage {
   SigningCertURL: string;
   SubscribeURL?: string;
   Subject?: string;
+  Token?: string;
 }
 
 export interface SesNotification {
@@ -69,9 +70,11 @@ export async function verifySnsSignature(message: SnsMessage): Promise<boolean> 
       return false;
     }
 
-    // Build the string to sign
+    // Build the string to sign. Confirmation messages (SubscriptionConfirmation /
+    // UnsubscribeConfirmation) sign Token as well — leaving it out makes every
+    // legitimate confirmation fail verification.
     const fieldsToSign =
-      message.Type === 'Notification' ? ['Message', 'MessageId', 'Subject', 'Timestamp', 'TopicArn', 'Type'] : ['Message', 'MessageId', 'SubscribeURL', 'Timestamp', 'TopicArn', 'Type'];
+      message.Type === 'Notification' ? ['Message', 'MessageId', 'Subject', 'Timestamp', 'TopicArn', 'Type'] : ['Message', 'MessageId', 'SubscribeURL', 'Timestamp', 'Token', 'TopicArn', 'Type'];
 
     const msgRecord = message as unknown as Record<string, unknown>;
     const stringToSign =
